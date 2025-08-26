@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maarten Bosma | AI Researcher</title>
+  <meta name="description" content="AI researcher focused on foundations of large language models: data, evaluation, and post-training." />
+  <meta name="color-scheme" content="light dark" />
+  <meta property="og:title" content="Maarten Bosma" />
+  <meta property="og:description" content="AI researcher focused on LLM foundations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.github.io/" />
+
+  <style>
+    :root {
+      --accent: hsl(211 100% 50%);
+      --accent-hover: hsl(211 100% 45%);
+      --accent-light: hsl(211 100% 96%);
+      --bg: #ffffff;
+      --text: #111827;
+      --text-secondary: #6b7280;
+      --border: #e5e7eb;
+      --surface: #f9fafb;
+      --maxw: 72ch;
+      --radius: 8px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --accent: hsl(211 100% 60%);
+        --accent-hover: hsl(211 100% 65%);
+        --accent-light: hsl(211 100% 15%);
+        --bg: #0f1419;
+        --text: #f3f4f6;
+        --text-secondary: #9ca3af;
+        --border: #1f2937;
+        --surface: #1a202c;
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 2rem);
+    }
+
+    /* Header Layout */
+    header {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 768px) {
+      header {
+        grid-template-columns: 1fr auto;
+        align-items: start;
+        gap: 3rem;
+      }
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .name {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .name .first {
+      font-weight: 300;
+      color: var(--text-secondary);
+    }
+
+    .name .last {
+      font-weight: 800;
+      color: var(--text);
+      position: relative;
+    }
+
+    .tagline {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: var(--maxw);
+      line-height: 1.5;
+    }
+
+    /* Photo */
+    .photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--border);
+      background: var(--surface);
+      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .photo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.15);
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-link::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-light);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .social-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .social-link:hover::before {
+      opacity: 1;
+    }
+
+    .social-link svg {
+      width: 18px;
+      height: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 3rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Content */
+    .prose {
+      max-width: var(--maxw);
+    }
+
+    .prose p {
+      margin-bottom: 1rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* Work Items */
+    .work-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .work-item {
+      padding: 1.5rem;
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    .work-item:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .work-item h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .work-item p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Experience */
+    .experience-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .experience-item {
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--border);
+      transition: border-color var(--transition);
+    }
+
+    .experience-item:hover {
+      border-left-color: var(--accent);
+    }
+
+    .experience-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+
+    .experience-item h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .experience-date {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .experience-item p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Links */
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    a:not(.social-link):hover {
+      color: var(--accent-hover);
+    }
+
+    .prose a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform var(--transition);
+    }
+
+    .prose a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Accessibility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container > * {
+      animation: fadeIn 0.6s ease-out forwards;
+      animation-delay: calc(var(--order, 0) * 0.1s);
+    }
+
+    header { --order: 1; }
+    section:nth-child(1) { --order: 2; }
+    section:nth-child(2) { --order: 3; }
+    section:nth-child(3) { --order: 4; }
+
+    /* Print styles */
+    @media print {
+      .photo, .social-links { display: none; }
+      a { color: inherit; text-decoration: underline; }
+      .container { padding: 0; }
+      .work-item, .experience-item { 
+        background: none; 
+        border: none; 
+        padding: 0; 
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1 class="name">
+          <span class="first">Maarten</span>
+          <span class="last">Bosma</span>
+        </h1>
+        <p class="tagline">
+          AI researcher focused on the foundations of large language models: data, evaluation, and post-training.
+        </p>
+        
+        <nav class="social-links" role="navigation" aria-label="Contact and profiles">
+          <a class="social-link" href="mailto:maarten@bosma.de" title="Email" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="M3 7l9 6 9-6"></path>
+            </svg>
+          </a>
+          <a class="social-link" href="https://scholar.google.com/citations?user=wkeFQPgAAAAJ" title="Google Scholar" aria-label="Google Scholar" rel="me noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 4l9 5-9 5-9-5 9-5z"></path>
+              <path d="M7 12v3c0 1.8 3 3.2 5 3.2s5-1.4 5-3.2v-3"></path>
+              <path d="M21 9v4"></path>
+            </svg>
+          </a>
+          <a class="social-link" href="https://github.com/ma2rten" title="GitHub" aria-label="GitHub" rel="me noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M9 19c-4.18 1.5-4.18-2.5-6-3"></path>
+              <path d="M15 22v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 18 3.77 5.07 5.07 0 0 0 17.91 1S16.73.65 14 2.48a13.38 13.38 0 0 0-7 0C4.27.65 3.09 1 3.09 1A5.07 5.07 0 0 0 3 3.77 5.44 5.44 0 0 0 1.5 8c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 7 18.13V22"></path>
+            </svg>
+          </a>
+          <a class="social-link" href="https://x.com/MaartenBosma" title="X" aria-label="X" rel="me noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+            </svg>
+          </a>
+          <a class="social-link" href="https://www.linkedin.com/in/maartenbosma/" title="LinkedIn" aria-label="LinkedIn" rel="me noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="2" y="9" width="4" height="12" rx="1"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+              <path d="M9 9h4v2c.8-1.2 2.3-2 3.8-2 3 0 5.2 2.2 5.2 6v6h-4v-6a2 2 0 0 0-4 0v6H9z"></path>
+            </svg>
+          </a>
+        </nav>
+      </div>
+
+      <figure class="photo" aria-label="Profile photo">
+        <img alt="Maarten Bosma" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'><rect width='360' height='360' fill='%23f3f4f6'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='48' font-weight='600' fill='%239ca3af'>Photo</text></svg>"/>
+      </figure>
+    </header>
+
+    <main>
+      <section id="about">
+        <div class="section-header">
+          <h2>About</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="prose">
+          <p>I'm an AI researcher. My work focuses on the foundations of large language models: data, evaluation, and post-training. I enjoy starting new research directions and building the systems to support them.</p>
+          <p>My career in LLM research began with a 20% project at Google Brain where I helped train Google Brain's first large-scale autoregressive language model. I have been a Research Engineer at Google Brain, a founding team member at Inflection, and a Principal Member of Technical Staff at Microsoft AI.</p>
+          <p>Since October 2024 I have been on sabbatical. I have been traveling, staying at a forest monastery in Thailand where I was temporarily ordained as a monk. I have also been working on side projects, practicing meditation, and learning Thai.</p>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="section-header">
+          <h2>Selected Work</h2>
+          <div class="section-line"></div>
+        </div>
+        <ul class="work-list">
+          <li class="work-item">
+            <h3>Instruction tuning and FLAN</h3>
+            <p>I started the FLAN project at Google, which introduced instruction tuning, and co-led the first academic publication on the concept. I built the initial model and organized the research effort to show that supervised fine-tuning on instruction-formatted datasets improves performance on unseen tasks. Instruction tuning is now a standard first step in modern LLM post-training.</p>
+          </li>
+          <li class="work-item">
+            <h3>Reasoning and Chain-of-Thought</h3>
+            <p>Co-author of "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." We showed that breaking problems into explicit steps improves accuracy on difficult tasks. This work helped establish methods used in reasoning-focused models and in scaling inference-time compute. <a href="https://arxiv.org/abs/2201.11903">arXiv</a></p>
+          </li>
+          <li class="work-item">
+            <h3>Code generation evaluation</h3>
+            <p>I created the Mostly Basic Python Problems (MBPP) dataset, released in August 2021, an early benchmark that researchers widely use to evaluate Python program synthesis, contemporaneous with HumanEval.</p>
+          </li>
+          <li class="work-item">
+            <h3>Foundational model building at Google and Inflection</h3>
+            <p>At Google Brain I created pretraining data pipelines, ran data-quality experiments, and set up evaluation systems for LaMDA, GLaM, and PaLM. I was a core contributor to PaLM. At Inflection I designed and ran pretraining, post-training, and safety experiments, and built supporting pipelines for pretraining and evaluation that enabled us to go from zero to competitive models such as Inflection-2.</p>
+          </li>
+        </ul>
+        <p style="margin-top: 1.5rem; color: var(--text-secondary);">See <a href="https://scholar.google.com/citations?user=wkeFQPgAAAAJ">Google Scholar</a> for a complete list of publications.</p>
+      </section>
+
+      <section id="experience">
+        <div class="section-header">
+          <h2>Industry Experience</h2>
+          <div class="section-line"></div>
+        </div>
+        <ul class="experience-list">
+          <li class="experience-item">
+            <div class="experience-header">
+              <h3>Microsoft AI</h3>
+              <span class="experience-date">2024</span>
+            </div>
+            <p>Principal Member of Technical Staff. Worked on site at OpenAI to adapt GPT-4o for Microsoft Copilot.</p>
+          </li>
+          <li class="experience-item">
+            <div class="experience-header">
+              <h3>Inflection AI</h3>
+              <span class="experience-date">2022 – 2024</span>
+            </div>
+            <p>Founding Member of Technical Staff. Designed and ran post-training and safety experiments; built data and evaluation pipelines for pretraining and post-training; helped ship Inflection-1, Inflection-2 and Pi.</p>
+          </li>
+          <li class="experience-item">
+            <div class="experience-header">
+              <h3>Google Brain</h3>
+              <span class="experience-date">2016 – 2022</span>
+            </div>
+            <p>Research Engineer. Created pretraining data pipelines, ran data-quality ablations, and designed evaluation systems for LaMDA, GLaM, and PaLM. Core contributor to PaLM.</p>
+          </li>
+        </ul>
+        <p style="margin-top: 1.5rem; color: var(--text-secondary);">Before working on LLM research, I worked as an ML Engineer and Data Scientist at Google Ads and Whisper.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year">2025</span> Maarten Bosma. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
