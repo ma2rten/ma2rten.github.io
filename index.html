@@ -21,7 +21,8 @@
       --text-secondary: #6b7280;
       --border: #e5e7eb;
       --surface: #f9fafb;
-      --maxw: 72ch;
+      --content-width: 85%;
+      --max-content-width: 900px;
       --radius: 8px;
       --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -71,12 +72,14 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 2rem;
-      margin-bottom: 3rem;
+      margin: 0 auto 3rem;
+      max-width: var(--max-content-width);
+      width: var(--content-width);
     }
 
     @media (min-width: 768px) {
       header {
-        grid-template-columns: 1fr auto;
+        grid-template-columns: auto 1fr;
         align-items: start;
         gap: 3rem;
       }
@@ -116,7 +119,6 @@
     .tagline {
       font-size: 1.125rem;
       color: var(--text-secondary);
-      max-width: var(--maxw);
       line-height: 1.5;
     }
 
@@ -130,6 +132,13 @@
       background: var(--surface);
       box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
       transition: transform var(--transition), box-shadow var(--transition);
+      order: -1;
+    }
+
+    @media (min-width: 768px) {
+      .photo {
+        order: 0;
+      }
     }
 
     .photo:hover {
@@ -196,7 +205,9 @@
 
     /* Sections */
     section {
-      margin-bottom: 3rem;
+      margin: 0 auto 3rem;
+      max-width: var(--max-content-width);
+      width: var(--content-width);
     }
 
     .section-header {
@@ -212,6 +223,7 @@
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--text-secondary);
+      white-space: nowrap;
     }
 
     .section-line {
@@ -222,7 +234,7 @@
 
     /* Content */
     .prose {
-      max-width: var(--maxw);
+      width: 100%;
     }
 
     .prose p {
@@ -236,33 +248,32 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1.5rem;
+      width: 100%;
     }
 
     .work-item {
-      padding: 1.5rem;
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      transition: all var(--transition);
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--border);
+      transition: border-color var(--transition);
     }
 
     .work-item:hover {
-      border-color: var(--accent);
-      box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
+      border-left-color: var(--accent);
     }
 
     .work-item h3 {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
       color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
     }
 
     .work-item p {
       color: var(--text-secondary);
-      line-height: 1.7;
+      line-height: 1.6;
+      margin-bottom: 0;
     }
 
     /* Experience */
@@ -271,6 +282,7 @@
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
+      width: 100%;
     }
 
     .experience-item {
@@ -300,11 +312,21 @@
     .experience-date {
       font-size: 0.875rem;
       color: var(--text-secondary);
+      font-weight: 500;
     }
 
     .experience-item p {
       color: var(--text-secondary);
       line-height: 1.6;
+    }
+
+    /* Section footnotes */
+    .section-footnote {
+      margin-top: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      width: 100%;
     }
 
     /* Links */
@@ -319,7 +341,8 @@
       color: var(--accent-hover);
     }
 
-    .prose a::after {
+    .prose a::after,
+    .work-item a::after {
       content: '';
       position: absolute;
       bottom: -2px;
@@ -332,19 +355,22 @@
       transition: transform var(--transition);
     }
 
-    .prose a:hover::after {
+    .prose a:hover::after,
+    .work-item a:hover::after {
       transform: scaleX(1);
       transform-origin: left;
     }
 
     /* Footer */
     footer {
-      margin-top: 4rem;
+      margin: 4rem auto 0;
       padding-top: 2rem;
       border-top: 1px solid var(--border);
       text-align: center;
       color: var(--text-secondary);
       font-size: 0.875rem;
+      max-width: var(--max-content-width);
+      width: var(--content-width);
     }
 
     /* Accessibility */
@@ -394,11 +420,41 @@
         margin-bottom: 1rem;
       }
     }
+
+    /* Mobile specific improvements */
+    @media (max-width: 767px) {
+      :root {
+        --content-width: 95%;
+      }
+      
+      .photo {
+        align-self: center;
+      }
+      
+      .header-content {
+        text-align: center;
+      }
+      
+      .social-links {
+        justify-content: center;
+      }
+    }
+
+    /* Tablet adjustments */
+    @media (max-width: 900px) {
+      :root {
+        --content-width: 90%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
+      <figure class="photo" aria-label="Profile photo">
+        <img alt="Maarten Bosma" src="photo.jpg"/>
+      </figure>
+      
       <div class="header-content">
         <h1 class="name">
           <span class="first">Maarten</span>
@@ -442,10 +498,6 @@
           </a>
         </nav>
       </div>
-
-      <figure class="photo" aria-label="Profile photo">
-        <img alt="Maarten Bosma" src="photo.jpg"/>
-      </figure>
     </header>
 
     <main>
@@ -484,7 +536,7 @@
             <p>At Google Brain I created pretraining data pipelines, ran data-quality experiments, and set up evaluation systems for LaMDA, GLaM, and PaLM. I was a core contributor to PaLM. At Inflection I designed and ran pretraining, post-training, and safety experiments, and built supporting pipelines for pretraining and evaluation that enabled us to go from zero to competitive models such as Inflection-2.</p>
           </li>
         </ul>
-        <p style="margin-top: 1.5rem; color: var(--text-secondary);">See <a href="https://scholar.google.com/citations?user=wkeFQPgAAAAJ">Google Scholar</a> for a complete list of publications.</p>
+        <p class="section-footnote">See <a href="https://scholar.google.com/citations?user=wkeFQPgAAAAJ">Google Scholar</a> for a complete list of publications.</p>
       </section>
 
       <section id="experience">
@@ -515,7 +567,7 @@
             <p>Research Engineer at Google Brain. Created pretraining data pipelines, ran data-quality ablations, and designed evaluation systems for LaMDA, GLaM, and PaLM. Core contributor to PaLM.</p>
           </li>
         </ul>
-        <p style="margin-top: 1.5rem; color: var(--text-secondary);">Before working on LLM research, I worked as an ML Engineer and Data Scientist at Google Ads and Whisper.</p>
+        <p class="section-footnote">Before working on LLM research, I worked as an ML Engineer and Data Scientist at Google Ads and Whisper.</p>
       </section>
     </main>
 
